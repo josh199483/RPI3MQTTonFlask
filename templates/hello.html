@@ -1,0 +1,98 @@
+<html> 
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/jquery-ui.css') }}"> 
+</head> 
+<body>
+<script>
+    window.onload = function() {
+        $("#send").click(function() {
+            var ipVal = $("#ip").val()
+            var portVal = $("#port").val()
+            var clientVal = $("#client").val()
+            var topicVal = $("#topic").val()
+            var qosVal = $("#qos").val()
+            alert(ipVal)
+            $.ajax({
+                    url: '/ajaxmqtt',
+                    data: {"ip":ipVal,"port":portVal,"client":clientVal,"topic":topicVal,"qos":qosVal},
+                    type: 'GET'
+                })
+                .done(function(data) {
+                    console.log(data)
+                    alert(data)
+                    $("#test").append(data.result.ip)
+                })
+        });
+        $("#disconnect").click(function() {
+        })
+    };
+</script>
+    <div class="container">
+        <div class="col-xs-12 col-sm-2">
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            <div class="page-header">
+                <h1>機台資料連線設置 <small> MQTT</small></h1>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Hello {{ name }}!!</h3>
+                </div>
+                <div class="panel-body" style="margin-right: 3em;">
+                    <form class="form-horizontal">
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Ip</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" id="ip" name="ip" value="192.168.124.88">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Port</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="port" name="port" type="text" value="1883">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Client-id</label>
+                            <div class="col-sm-10">
+                                <input id="client" name="client" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Topic</label>
+                            <div class="col-sm-10">
+                                <input id="topic" name="topic" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">qos</label>
+                            <div class="col-sm-10">
+                                <select name="qos" id="qos" class="form-control">
+                                  <option value="0">0</option>
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <span class="col-sm-2"></span>
+                        <input type="button" class="btn btn-info col-sm-3" id="send" value="send">
+                        <span class="col-sm-1"></span>
+                        <input type="button" class="btn btn-danger col-sm-3" id="disconnect" value="disconnect">
+                        <span class="col-sm-2"></span>
+                      </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-2">
+        </div>
+    </div>
+    
+</body> 
+<script src="https://code.jquery.com/jquery.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+        crossorigin="anonymous"></script>
+</html>
