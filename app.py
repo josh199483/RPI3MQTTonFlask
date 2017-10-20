@@ -18,7 +18,11 @@ def ajax():
     ip =  request.args.get('ip','192.168.124.88')
     port = int(request.args.get('port'))
     client = request.args.get('client','1')
-    topic = request.args.get('topic')
+    #topic = request.args.get('topic')
+    company = request.args.get('company')
+    factory = request.args.get('factory')
+    productionline = request.args.get('productionline')
+    machine = request.args.get('machine')
     qos = int(request.args.get('qos'))
     ##使用表單的方式取值
     #ip = request.form['ip']
@@ -31,7 +35,11 @@ def ajax():
       'ip':ip,
       'port':port,
       'client':client,
-      'topic':topic,
+      #'topic':topic,
+      'company':company,
+      'factory':factory,
+      'productionline':productionline,
+      'machine':machine,
       'qos':qos
     }
     sendMQTT(result)
@@ -47,15 +55,20 @@ def sendMQTT(result):
     ip = result['ip']
     port = result['port']
     client = result['client']
-    topic = result['topic']
-   
+    #topic = result['topic']
+    company = result['company']
+    factory = result['factory']
+    productionline = result['productionline']
+    machine = result['machine']
+    #這裡的topic是由公司到機器這幾個設定所組合而成
+    topic = company+"/"+factory+"/"+productionline+"/"+machine
     qos = result['qos']
     def on_connect(pahoClient, obj, flags, rc):
 
         print("Connected Code =",rc)
         #pahoClient.subscribe(topic)
-
-    def on_publish(pahoClient, packet, mid):
+    #userdata不常用，mid是message的id
+    def on_publish(pahoClient, userdata, mid):
     # Once published, disconnect
         print("Published")
         #pahoClient.disconnect()
